@@ -1,9 +1,16 @@
+using GoodFood.RestClient;
 using Xunit;
 
 namespace GoodFood.AcceptanceTests.IngredientsListScenarios
 {
     public class AddAnIngredientToAIngredientList
     {
+        private readonly Client _client;
+
+        public AddAnIngredientToAIngredientList()
+        {
+            _client = new Client();
+        }
         [Fact]
         public void AddAnIngredientToAIngredientListRecipe()
         {
@@ -14,7 +21,7 @@ namespace GoodFood.AcceptanceTests.IngredientsListScenarios
 
         private void Given_a_ingredient_list()
         {
-            throw new System.NotImplementedException();
+         _client.IngredientLists.Create();
         }
 
         private void When_I_add_a_ingredient()
