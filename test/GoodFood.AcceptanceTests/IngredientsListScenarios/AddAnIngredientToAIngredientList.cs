@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using GoodFood.RestClient;
 using Xunit;
 
@@ -6,22 +8,23 @@ namespace GoodFood.AcceptanceTests.IngredientsListScenarios
     public class AddAnIngredientToAIngredientList
     {
         private readonly Client _client;
+        private Guid _ingredientListId;
 
         public AddAnIngredientToAIngredientList()
         {
-            _client = new Client();
+            _client = new Client(null);
         }
         [Fact]
-        public void AddAnIngredientToAIngredientListRecipe()
+        public async Task AddAnIngredientToAIngredientListRecipe()
         {
-            Given_a_ingredient_list();
-            When_I_add_a_ingredient();
-            Then_I_can_find_the_ingredient_in_the_ingredient_list();
+            await Given_a_ingredient_list();
+                  When_I_add_a_ingredient();
+                  Then_I_can_find_the_ingredient_in_the_ingredient_list();
         }
 
-        private void Given_a_ingredient_list()
+        private async Task Given_a_ingredient_list()
         {
-         _client.IngredientLists.Create();
+        _ingredientListId = await _client.IngredientLists.Create();
         }
 
         private void When_I_add_a_ingredient()

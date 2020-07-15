@@ -1,10 +1,12 @@
-﻿namespace GoodFood.RestClient
+﻿using System.Net.Http;
+
+namespace GoodFood.RestClient
 {
     public class Client
     {
-        public Client()
+        public Client(HttpClient httpClient)
         {
-            IngredientLists = new IngredientLists();
+            IngredientLists = new IngredientLists(httpClient);
         }
         public IngredientLists IngredientLists { get; }
     }
