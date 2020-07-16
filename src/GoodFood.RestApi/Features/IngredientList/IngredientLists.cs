@@ -11,7 +11,7 @@ namespace GoodFood.RestApi.Features.IngredientList
         [HttpPost]
         public Guid CreateIngredientList()
         {
-            return new Guid();
+            return Guid.NewGuid();
         }
     }
 }

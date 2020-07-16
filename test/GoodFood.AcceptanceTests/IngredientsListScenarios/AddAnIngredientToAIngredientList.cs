@@ -1,28 +1,41 @@
 using System;
 using System.Threading.Tasks;
 using GoodFood.RestClient;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Hosting;
 using Xunit;
 
 namespace GoodFood.AcceptanceTests.IngredientsListScenarios
 {
     public class AddAnIngredientToAIngredientList
     {
-        private readonly Client _client;
+        private IHost _testHost;
+        private Client _client;
         private Guid _ingredientListId;
-
-        public AddAnIngredientToAIngredientList()
-        {
-            _client = new Client(null);
-        }
+        
         [Fact]
         public async Task AddAnIngredientToAIngredientListRecipe()
         {
-            await Given_a_ingredient_list();
+            await Given_a_rest_api();
+                  And_a_rest_client();
+            await And_a_ingredient_list();
                   When_I_add_a_ingredient();
                   Then_I_can_find_the_ingredient_in_the_ingredient_list();
         }
-
-        private async Task Given_a_ingredient_list()
+        private async Task Given_a_rest_api()
+        {
+            var builder = new RestApiHostBuilder();
+            
+            _testHost = await builder.CreateAsync();
+        }
+        
+        private void And_a_rest_client()
+        {
+            var testHttpClient = HostBuilderTestServerExtensions.GetTestClient(_testHost);
+            _client = new Client(testHttpClient);
+        }
+        
+        private async Task And_a_ingredient_list()
         {
         _ingredientListId = await _client.IngredientLists.Create();
         }
