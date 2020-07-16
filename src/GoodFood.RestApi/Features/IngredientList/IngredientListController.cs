@@ -20,7 +20,7 @@ namespace GoodFood.RestApi.Features.IngredientList
             _ingredientListRepository = ingredientListRepository;
         }
 
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> AddIngredient(Guid id, [FromBody] IngredientCreateDto ingredientCreateDto)
         {
             IActionResult actionResult;
