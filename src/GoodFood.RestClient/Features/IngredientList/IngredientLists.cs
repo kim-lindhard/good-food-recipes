@@ -30,5 +30,10 @@ namespace GoodFood.RestClient.Features.IngredientList
 
             return ingredientListId;
         }
+
+        public IngredientList List(Guid ingredientListId)
+        {
+            return new IngredientList(_httpClient, ingredientListId);
+        }
     }
 }

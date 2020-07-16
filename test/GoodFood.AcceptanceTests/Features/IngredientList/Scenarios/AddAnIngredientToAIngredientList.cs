@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using GoodFood.AcceptanceTests.Features.IngredientList.TestDoubles.Repositories;
 using GoodFood.Domain.Features.IngredientList.Repositories;
 using GoodFood.RestClient;
+using GoodFood.RestClient.Features.IngredientList.DataTransferObjects;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Hosting;
 using Xunit;
@@ -21,7 +22,7 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
             await Given_a_rest_api();
                   And_a_rest_client();
             await And_a_ingredient_list();
-                  When_I_add_a_ingredient();
+            await When_I_add_a_ingredient();
                   Then_I_can_find_the_ingredient_in_the_ingredient_list();
         }
         private async Task Given_a_rest_api()
@@ -43,9 +44,16 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
         _ingredientListId = await _client.IngredientLists.Create();
         }
 
-        private void When_I_add_a_ingredient()
+        private async Task When_I_add_a_ingredient()
         {
-            throw new System.NotImplementedException();
+            var lemonIngredientCreateDto = new IngredientCreateDto
+            {
+                Title = "Lemon",
+                Description = "An acid fruit that is botanically a many-seeded pale yellow oblong berry produced by a small thorny citrus tree (Citrus limon) and that has a rind from which an aromatic oil is extracted"
+            };
+            await _client.IngredientLists
+                .List(_ingredientListId)
+                .Add(lemonIngredientCreateDto);
         }
 
         private void Then_I_can_find_the_ingredient_in_the_ingredient_list()
