@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace GoodFood.RestClient
+namespace GoodFood.RestClient.Features.IngredientList
 {
     public class IngredientLists
     {
@@ -19,7 +19,7 @@ namespace GoodFood.RestClient
             
 
             var httpResponseMessage = await _httpClient.PostAsync(
-                new Uri(StaticRoutes.INGREDIENT_LISTS_ROUTE, UriKind.Relative),
+                new Uri(IngredientListsStaticRoutes.INGREDIENT_LISTS_ROUTE, UriKind.Relative),
                 null
             );
          

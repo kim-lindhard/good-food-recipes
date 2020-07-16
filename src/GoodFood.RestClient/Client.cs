@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using GoodFood.RestClient.Features.IngredientList;
 
 namespace GoodFood.RestClient
 {
