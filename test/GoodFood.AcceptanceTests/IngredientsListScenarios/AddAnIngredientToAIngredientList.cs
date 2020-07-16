@@ -1,5 +1,7 @@
 using System;
 using System.Threading.Tasks;
+using GoodFood.AcceptanceTests.TestDoubles.Repositories;
+using GoodFood.Domain.Features.IngredientList.Repositories;
 using GoodFood.RestClient;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Hosting;
@@ -24,7 +26,8 @@ namespace GoodFood.AcceptanceTests.IngredientsListScenarios
         }
         private async Task Given_a_rest_api()
         {
-            var builder = new RestApiHostBuilder();
+            var builder = new RestApiHostBuilder()
+                .WithService<IIngredientListRepository>(new InMemoryIngredientListRepository());
             
             _testHost = await builder.CreateAsync();
         }

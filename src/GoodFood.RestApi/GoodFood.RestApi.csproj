@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GoodFood.Domain\GoodFood.Domain.csproj" />
     <ProjectReference Include="..\GoodFood.RestClient\GoodFood.RestClient.csproj" />
   </ItemGroup>
 

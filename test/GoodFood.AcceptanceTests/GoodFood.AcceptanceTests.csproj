@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\GoodFood.Domain\GoodFood.Domain.csproj" />
     <ProjectReference Include="..\..\src\GoodFood.RestApi\GoodFood.RestApi.csproj" />
     <ProjectReference Include="..\..\src\GoodFood.RestClient\GoodFood.RestClient.csproj" />
   </ItemGroup>
