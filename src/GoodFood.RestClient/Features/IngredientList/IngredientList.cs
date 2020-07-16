@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,8 +36,15 @@ namespace GoodFood.RestClient.Features.IngredientList
                 relativeUri,
                 content
             );
-
-            httpResponseMessage.EnsureSuccessStatusCode();
+            
+            if (httpResponseMessage.StatusCode != HttpStatusCode.OK)
+            {
+                var responseContent = await httpResponseMessage.Content.ReadAsStringAsync();
+                var exception = HttpResponseContentToException.Convert(responseContent);
+                
+                throw exception;
+            }
+           
         }
 
         public async Task<IEnumerable<IngredientResultDto>> GetAll(Guid ingredientListId)
@@ -51,6 +59,9 @@ namespace GoodFood.RestClient.Features.IngredientList
             httpResponseMessage.EnsureSuccessStatusCode();
             
             var content = await httpResponseMessage.Content.ReadAsStringAsync();
+
+           
+
             var topics = JsonConvert.DeserializeObject<IEnumerable<IngredientResultDto>>(content);
 
             return topics;

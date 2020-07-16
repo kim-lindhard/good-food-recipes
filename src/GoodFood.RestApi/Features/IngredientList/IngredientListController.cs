@@ -13,7 +13,7 @@ namespace GoodFood.RestApi.Features.IngredientList
 {
     [ApiController]
     [Route(IngredientListsStaticRoutes.INGREDIENT_LIST_ROUTE)]
-    public class IngredientListController  : ControllerBase
+    public class IngredientListController : ControllerBase
     {
         private readonly IIngredientListRepository _ingredientListRepository;
 
@@ -25,12 +25,21 @@ namespace GoodFood.RestApi.Features.IngredientList
         [HttpPost]
         public IActionResult AddIngredient(Guid id, [FromBody] IngredientCreateDto ingredientCreateDto)
         {
-            var ingredient = IngredientCreateDto.ToIngredient(ingredientCreateDto);
-            _ingredientListRepository.Add(id, ingredient);
-            
-            return Ok();
+            IActionResult actionResult;
+            try
+            {
+                var ingredient = IngredientCreateDto.ToIngredient(ingredientCreateDto);
+                _ingredientListRepository.Add(id, ingredient);
+
+                actionResult = Ok();
+            }
+            catch (Exception exception) when (ExceptionToStatusCode.CanConvert(exception, out actionResult))
+            {
+            }
+
+            return actionResult;
         }
-        
+
         [HttpGet]
         public async Task<IEnumerable<IngredientResultDto>> GetAllIngredients(Guid id)
         {
