@@ -1,8 +1,9 @@
-﻿using GoodFood.Domain.Features.IngredientList.Exceptions;
+﻿using System.Collections.Generic;
+using GoodFood.Domain.Features.IngredientList.Exceptions;
 
 namespace GoodFood.Domain.Features.IngredientList.Models
 {
-    public class Ingredient
+    public class Ingredient : ValueObject
     {
         private const int MAX_TITLE_LENGTH = 90;
         public Ingredient(string title, string description)
@@ -17,5 +18,10 @@ namespace GoodFood.Domain.Features.IngredientList.Models
         }
         public string Title { get; }
         public string Description { get; }
+        protected override IEnumerable<object> GetEqualityComponents()
+        {
+            yield return Title;
+            yield return Description;
+        }
     }
 }
