@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using GoodFood.Domain.Features.IngredientList.Models;
 using GoodFood.Domain.Features.IngredientList.Repositories;
@@ -8,35 +9,32 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.TestDoubles.Repositor
 {
     public class InMemoryIngredientListRepository : IIngredientListRepository
     {
-        private readonly Dictionary<Guid, List<Ingredient>> _ingredientLists;
-
+        private Dictionary<Guid, Domain.Features.IngredientList.Models.IngredientList> _ingredientLists;
         public InMemoryIngredientListRepository()
         {
-            _ingredientLists = new Dictionary<Guid, List<Ingredient>>();
+            _ingredientLists = new Dictionary<Guid, Domain.Features.IngredientList.Models.IngredientList>();
         }
 
         public Task<Guid> Create()
         {
             var id = Guid.NewGuid();
             
-            _ingredientLists.Add(id, new List<Ingredient>());
+            _ingredientLists.Add(id, new Domain.Features.IngredientList.Models.IngredientList(id));
           
             return Task.FromResult(id);
         }
 
-        public Task Add(Guid ingredientListId, Ingredient ingredient)
+        public Task<Domain.Features.IngredientList.Models.IngredientList> Get(Guid ingredientListId)
         {
-            var list = _ingredientLists[ingredientListId];
-            
-            list.Add(ingredient);
-            
-            return Task.CompletedTask;
+            var ingredientList = _ingredientLists[ingredientListId];
+            return Task.FromResult(ingredientList);
         }
 
-        public Task<IEnumerable<Ingredient>> GetList(Guid ingredientListId)
+        public Task Store(Domain.Features.IngredientList.Models.IngredientList ingredientList)
         {
-            IEnumerable<Ingredient> list = _ingredientLists[ingredientListId];
-            return Task.FromResult(list);
+            _ingredientLists[ingredientList.Id] = ingredientList;
+            
+            return Task.CompletedTask;
         }
     }
 }

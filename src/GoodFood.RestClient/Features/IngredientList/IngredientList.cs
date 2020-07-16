@@ -32,7 +32,7 @@ namespace GoodFood.RestClient.Features.IngredientList
             );
             var relativeUri = new Uri(IngredientListsDynamicRoutes.INGREDIENT_LIST_ROUTE(_ingredientListId),
                 UriKind.Relative);
-            var httpResponseMessage = await _httpClient.PostAsync(
+            var httpResponseMessage = await _httpClient.PutAsync(
                 relativeUri,
                 content
             );

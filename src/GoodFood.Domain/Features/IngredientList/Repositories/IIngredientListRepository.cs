@@ -8,9 +8,8 @@ namespace GoodFood.Domain.Features.IngredientList.Repositories
     public interface IIngredientListRepository
     {
         Task<Guid> Create();
-        
-        Task Add(Guid ingredientListId, Ingredient ingredient);
 
-        Task<IEnumerable<Ingredient>> GetList(Guid ingredientListId);
+        Task<Models.IngredientList> Get(Guid ingredientListId);
+        Task Store(Models.IngredientList ingredientList);
     }
 }
