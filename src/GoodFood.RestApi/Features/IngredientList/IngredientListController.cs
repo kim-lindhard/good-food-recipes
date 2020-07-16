@@ -21,12 +21,12 @@ namespace GoodFood.RestApi.Features.IngredientList
         }
 
         [HttpPut]
-        public async Task<IActionResult> AddIngredient(Guid id, [FromBody] IngredientCreateDto ingredientCreateDto)
+        public async Task<IActionResult> AddIngredient(Guid id, [FromBody] IngredientCommandDto ingredientCommandDto)
         {
             IActionResult actionResult;
             try
             {
-                var ingredient = IngredientCreateDto.ToIngredient(ingredientCreateDto);
+                var ingredient = IngredientCommandDto.ToIngredient(ingredientCommandDto);
                 var ingredientList = await _ingredientListRepository.Get(id);
                 ingredientList.AddIngredientToList(ingredient);
 
@@ -40,12 +40,12 @@ namespace GoodFood.RestApi.Features.IngredientList
         }
 
         [HttpDelete]
-        public async Task<IActionResult> RemoveIngredient(Guid id, [FromBody] IngredientCreateDto ingredientCreateDto)
+        public async Task<IActionResult> RemoveIngredient(Guid id, [FromBody] IngredientCommandDto ingredientCommandDto)
         {
             IActionResult actionResult;
             try
             {
-                var ingredient = IngredientCreateDto.ToIngredient(ingredientCreateDto);
+                var ingredient = IngredientCommandDto.ToIngredient(ingredientCommandDto);
                 var ingredientList = await _ingredientListRepository.Get(id);
                 ingredientList.RemoveIngredientFromList(ingredient);
                 

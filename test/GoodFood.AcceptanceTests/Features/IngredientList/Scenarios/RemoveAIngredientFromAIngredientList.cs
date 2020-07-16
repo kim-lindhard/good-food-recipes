@@ -17,7 +17,7 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
             private IHost _testHost;
             private Client _client;
             private Guid _ingredientListId;
-            private IngredientCreateDto _lemonIngredientCreateDto;
+            private IngredientCommandDto _lemonIngredientCommandDto;
 
             [Fact]
             public async Task RemoveAIngredientFromAIngredientListRecipe()
@@ -53,7 +53,7 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
 
             private async Task And_an_ingredient()
             {
-                _lemonIngredientCreateDto = new IngredientCreateDto
+                _lemonIngredientCommandDto = new IngredientCommandDto
                 {
                     Title = "Lemon",
                     Description =
@@ -61,12 +61,12 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
                 };
                 await _client.IngredientLists
                     .List(_ingredientListId)
-                    .Add(_lemonIngredientCreateDto);
+                    .Add(_lemonIngredientCommandDto);
             }
 
             private async Task When_I_remove_an_ingredient()
             {
-                _lemonIngredientCreateDto = new IngredientCreateDto
+                _lemonIngredientCommandDto = new IngredientCommandDto
                 {
                     Title = "Lemon",
                     Description =
@@ -74,7 +74,7 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
                 };
                 await _client.IngredientLists
                     .List(_ingredientListId)
-                    .Remove(_lemonIngredientCreateDto);
+                    .Remove(_lemonIngredientCommandDto);
             }
 
             private async Task Then_the_ingredient_list_will_be_empty()

@@ -2,16 +2,16 @@
 
 namespace GoodFood.RestClient.Features.IngredientList.DataTransferObjects
 {
-    public class IngredientCreateDto
+    public class IngredientCommandDto
     {
         public string Title { get; set; }
         public string Description { get; set; }
 
-        public static Ingredient ToIngredient(IngredientCreateDto ingredientCreateDto)
+        public static Ingredient ToIngredient(IngredientCommandDto ingredientCommandDto)
         {
             var ingredient = new Ingredient(
-                ingredientCreateDto.Title,
-                ingredientCreateDto.Description
+                ingredientCommandDto.Title,
+                ingredientCommandDto.Description
             );
 
             return ingredient;

@@ -15,7 +15,7 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
            private IHost _testHost;
         private Client _client;
         private Guid _ingredientListId;
-        private IngredientCreateDto _lemonIngredientCreateDto;
+        private IngredientCommandDto _lemonIngredientCommandDto;
 
         [Fact]
         public async Task AddTheSameIngredientTwiceWillBeIdempotentRecipe()
@@ -51,29 +51,29 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
 
         private async Task When_I_add_a_ingredient()
         {
-            _lemonIngredientCreateDto = new IngredientCreateDto
+            _lemonIngredientCommandDto = new IngredientCommandDto
             {
                 Title = "Lemon",
                 Description = "An acid fruit that is botanically a many-seeded pale yellow oblong berry produced by a small thorny citrus tree (Citrus limon) and that has a rind from which an aromatic oil is extracted"
             };
             await _client.IngredientLists
                 .List(_ingredientListId)
-                .Add(_lemonIngredientCreateDto);
+                .Add(_lemonIngredientCommandDto);
         }
         
         private async Task And_add_the_same_ingredient_again()
         {
             await _client.IngredientLists
                 .List(_ingredientListId)
-                .Add(_lemonIngredientCreateDto);
+                .Add(_lemonIngredientCommandDto);
         }
         private async Task Then_I_can_find_the_ingredient_in_the_ingredient_list_once()
         {
             var ingridients = await _client.IngredientLists
                 .List(_ingredientListId).GetAll(_ingredientListId);
             
-            Assert.Single(ingridients, i => i.Title == _lemonIngredientCreateDto.Title);
-            Assert.Single(ingridients, i => i.Description == _lemonIngredientCreateDto.Description);
+            Assert.Single(ingridients, i => i.Title == _lemonIngredientCommandDto.Title);
+            Assert.Single(ingridients, i => i.Description == _lemonIngredientCommandDto.Description);
         }
     }
 }

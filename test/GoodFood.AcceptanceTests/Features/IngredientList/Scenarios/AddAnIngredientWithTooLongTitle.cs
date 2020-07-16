@@ -16,7 +16,7 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
         private IHost _testHost;
         private Client _client;
         private Guid _ingredientListId;
-        private IngredientCreateDto _ingredientWithTooLongTitleCreateDto;
+        private IngredientCommandDto _ingredientWithTooLongTitleCommandDto;
         private TitleLengthTooLongException _titleLengthTooLongException;
 
         [Fact]
@@ -49,7 +49,7 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
 
         private async Task When_I_add_a_ingredient_with_a_title_of_91_length()
         {
-            _ingredientWithTooLongTitleCreateDto = new IngredientCreateDto
+            _ingredientWithTooLongTitleCommandDto = new IngredientCommandDto
             {
                 Title = "this title is 91 chars long !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
                 Description = "this ingredients title is expected to be too long"
@@ -60,7 +60,7 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
             _titleLengthTooLongException = await Assert.ThrowsAsync<TitleLengthTooLongException>(() => 
                  _client.IngredientLists
                     .List(_ingredientListId)
-                    .Add(_ingredientWithTooLongTitleCreateDto)
+                    .Add(_ingredientWithTooLongTitleCommandDto)
             );
         }
 

@@ -21,9 +21,9 @@ namespace GoodFood.RestClient.Features.IngredientList
         }
 
 
-        public async Task Add(IngredientCreateDto ingredientCreateDto)
+        public async Task Add(IngredientCommandDto ingredientCommandDto)
         {
-            var payload = JsonConvert.SerializeObject(ingredientCreateDto);
+            var payload = JsonConvert.SerializeObject(ingredientCommandDto);
             
             var content = new StringContent(
                 payload,
@@ -67,14 +67,14 @@ namespace GoodFood.RestClient.Features.IngredientList
             return topics;
         }
 
-        public async Task Remove(IngredientCreateDto lemonIngredientCreateDto)
+        public async Task Remove(IngredientCommandDto lemonIngredientCommandDto)
         {
               
             var relativeUri = new Uri(IngredientListsDynamicRoutes.INGREDIENT_LIST_ROUTE(_ingredientListId),
                 UriKind.Relative);
             
             var request = new HttpRequestMessage(HttpMethod.Delete, relativeUri);
-            request.Content = new StringContent(JsonConvert.SerializeObject(lemonIngredientCreateDto), Encoding.UTF8, "application/json");
+            request.Content = new StringContent(JsonConvert.SerializeObject(lemonIngredientCommandDto), Encoding.UTF8, "application/json");
             await _httpClient.SendAsync(request);
         }
     }
