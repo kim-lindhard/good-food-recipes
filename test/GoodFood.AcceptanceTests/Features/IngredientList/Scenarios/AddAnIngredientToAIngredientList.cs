@@ -1,13 +1,13 @@
 using System;
 using System.Threading.Tasks;
-using GoodFood.AcceptanceTests.TestDoubles.Repositories;
+using GoodFood.AcceptanceTests.Features.IngredientList.TestDoubles.Repositories;
 using GoodFood.Domain.Features.IngredientList.Repositories;
 using GoodFood.RestClient;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Hosting;
 using Xunit;
 
-namespace GoodFood.AcceptanceTests.IngredientsListScenarios
+namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
 {
     public class AddAnIngredientToAIngredientList
     {

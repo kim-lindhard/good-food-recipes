@@ -21,4 +21,8 @@
     <ProjectReference Include="..\..\src\GoodFood.RestClient\GoodFood.RestClient.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\IngredientList" />
+  </ItemGroup>
+
 </Project>
