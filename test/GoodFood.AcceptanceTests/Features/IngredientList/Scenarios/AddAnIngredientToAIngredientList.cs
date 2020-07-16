@@ -15,7 +15,8 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
         private IHost _testHost;
         private Client _client;
         private Guid _ingredientListId;
-        
+        private IngredientCreateDto _lemonIngredientCreateDto;
+
         [Fact]
         public async Task AddAnIngredientToAIngredientListRecipe()
         {
@@ -23,7 +24,7 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
                   And_a_rest_client();
             await And_a_ingredient_list();
             await When_I_add_a_ingredient();
-                  Then_I_can_find_the_ingredient_in_the_ingredient_list();
+            await Then_I_can_find_the_ingredient_in_the_ingredient_list();
         }
         private async Task Given_a_rest_api()
         {
@@ -46,19 +47,23 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
 
         private async Task When_I_add_a_ingredient()
         {
-            var lemonIngredientCreateDto = new IngredientCreateDto
+            _lemonIngredientCreateDto = new IngredientCreateDto
             {
                 Title = "Lemon",
                 Description = "An acid fruit that is botanically a many-seeded pale yellow oblong berry produced by a small thorny citrus tree (Citrus limon) and that has a rind from which an aromatic oil is extracted"
             };
             await _client.IngredientLists
                 .List(_ingredientListId)
-                .Add(lemonIngredientCreateDto);
+                .Add(_lemonIngredientCreateDto);
         }
 
-        private void Then_I_can_find_the_ingredient_in_the_ingredient_list()
+        private async Task Then_I_can_find_the_ingredient_in_the_ingredient_list()
         {
-            throw new System.NotImplementedException();
+            var ingridients = await _client.IngredientLists
+                .List(_ingredientListId).GetAll(_ingredientListId);
+            
+            Assert.Single(ingridients, i => i.Title == _lemonIngredientCreateDto.Title);
+            Assert.Single(ingridients, i => i.Description == _lemonIngredientCreateDto.Description);
         }
     }
 }

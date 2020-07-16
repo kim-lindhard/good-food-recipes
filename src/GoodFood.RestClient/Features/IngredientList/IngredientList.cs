@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,6 +37,23 @@ namespace GoodFood.RestClient.Features.IngredientList
             );
 
             httpResponseMessage.EnsureSuccessStatusCode();
+        }
+
+        public async Task<IEnumerable<IngredientResultDto>> GetAll(Guid ingredientListId)
+        {
+          
+            var relativeUri = new Uri(IngredientListsDynamicRoutes.INGREDIENT_LIST_ROUTE(_ingredientListId),
+                UriKind.Relative);
+            var httpResponseMessage = await _httpClient.GetAsync(
+                relativeUri
+            );
+
+            httpResponseMessage.EnsureSuccessStatusCode();
+            
+            var content = await httpResponseMessage.Content.ReadAsStringAsync();
+            var topics = JsonConvert.DeserializeObject<IEnumerable<IngredientResultDto>>(content);
+
+            return topics;
         }
     }
 }

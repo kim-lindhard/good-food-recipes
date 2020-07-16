@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using GoodFood.Domain.Features.IngredientList.Models;
 using GoodFood.Domain.Features.IngredientList.Repositories;
 using GoodFood.RestClient.Features.IngredientList;
 using GoodFood.RestClient.Features.IngredientList.DataTransferObjects;
@@ -24,6 +29,14 @@ namespace GoodFood.RestApi.Features.IngredientList
             _ingredientListRepository.Add(id, ingredient);
             
             return Ok();
+        }
+        
+        [HttpGet]
+        public async Task<IEnumerable<IngredientResultDto>> GetAllIngredients(Guid id)
+        {
+            var ingredients = await _ingredientListRepository.GetList(id);
+
+            return ingredients.Select(i => IngredientResultDto.FromIngredient(i));
         }
     }
 }
