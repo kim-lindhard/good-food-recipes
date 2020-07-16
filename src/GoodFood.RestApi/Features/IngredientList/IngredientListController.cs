@@ -20,7 +20,7 @@ namespace GoodFood.RestApi.Features.IngredientList
             _ingredientListRepository = ingredientListRepository;
         }
 
-        [HttpPut]
+        [HttpPost]
         public async Task<IActionResult> AddIngredient(Guid id, [FromBody] IngredientCreateDto ingredientCreateDto)
         {
             IActionResult actionResult;
@@ -39,6 +39,27 @@ namespace GoodFood.RestApi.Features.IngredientList
             return actionResult;
         }
 
+        [HttpDelete]
+        public async Task<IActionResult> RemoveIngredient(Guid id, [FromBody] IngredientCreateDto ingredientCreateDto)
+        {
+            IActionResult actionResult;
+            try
+            {
+                var ingredient = IngredientCreateDto.ToIngredient(ingredientCreateDto);
+                var ingredientList = await _ingredientListRepository.Get(id);
+                ingredientList.RemoveIngredientFromList(ingredient);
+                
+                await _ingredientListRepository.Store(ingredientList);
+                actionResult = Ok();
+            }
+            catch (Exception exception) when (ExceptionToStatusCode.CanConvert(exception, out actionResult))
+            {
+            }
+
+            return actionResult;
+        }
+
+        
         [HttpGet]
         public async Task<IEnumerable<IngredientResultDto>> GetAllIngredients(Guid id)
         {

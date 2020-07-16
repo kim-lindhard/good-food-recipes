@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using GoodFood.Domain.Features.IngredientList.Models;
 using GoodFood.Domain.Features.IngredientList.Repositories;
 
 namespace GoodFood.AcceptanceTests.Features.IngredientList.TestDoubles.Repositories
