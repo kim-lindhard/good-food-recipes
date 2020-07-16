@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using GoodFood.AcceptanceTests.Features.IngredientList.TestDoubles.Repositories;
 using GoodFood.Domain.Features.IngredientList.Repositories;
@@ -17,7 +18,7 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
             private IHost _testHost;
             private Client _client;
             private Guid _ingredientListId;
-            private IngredientCommandDto _lemonIngredientCommandDto;
+            private IngredientCreateDto _lemonIngredientCreateDto;
 
             [Fact]
             public async Task RemoveAIngredientFromAIngredientListRecipe()
@@ -53,7 +54,7 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
 
             private async Task And_an_ingredient()
             {
-                _lemonIngredientCommandDto = new IngredientCommandDto
+                _lemonIngredientCreateDto = new IngredientCreateDto
                 {
                     Title = "Lemon",
                     Description =
@@ -61,20 +62,19 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
                 };
                 await _client.IngredientLists
                     .List(_ingredientListId)
-                    .Add(_lemonIngredientCommandDto);
+                    .Add(_lemonIngredientCreateDto);
             }
 
             private async Task When_I_remove_an_ingredient()
             {
-                _lemonIngredientCommandDto = new IngredientCommandDto
-                {
-                    Title = "Lemon",
-                    Description =
-                        "An acid fruit that is botanically a many-seeded pale yellow oblong berry produced by a small thorny citrus tree (Citrus limon) and that has a rind from which an aromatic oil is extracted"
-                };
+                var ingredients = await _client.IngredientLists
+                    .List(_ingredientListId).GetAll(_ingredientListId);
+
+                var ingredientToDeleteIdentifier = ingredients.Single().Identifier;
+            
                 await _client.IngredientLists
                     .List(_ingredientListId)
-                    .Remove(_lemonIngredientCommandDto);
+                    .Remove(ingredientToDeleteIdentifier);
             }
 
             private async Task Then_the_ingredient_list_will_be_empty()

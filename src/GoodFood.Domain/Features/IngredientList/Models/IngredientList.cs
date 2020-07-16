@@ -15,7 +15,8 @@ namespace GoodFood.Domain.Features.IngredientList.Models
         public void AddIngredientToList(Ingredient ingredient)
         {
             if (_ingredient.Any(existingIngredient =>
-                existingIngredient==  ingredient)
+                existingIngredient.Title == ingredient.Title && 
+                existingIngredient.Description == ingredient.Description)
             )
             {
                 return;
@@ -24,12 +25,13 @@ namespace GoodFood.Domain.Features.IngredientList.Models
             _ingredient.Add(ingredient);
         }
         
-        public void RemoveIngredientFromList(Ingredient ingredient)
+        public void RemoveIngredientFromList(Guid ingredientId)
         {
             var ingredientToRemove = _ingredient.Single(
-                existingIngredient => existingIngredient == ingredient);
+                existingIngredient => existingIngredient.Identifier == ingredientId);
             _ingredient.Remove(ingredientToRemove);
         }
+       
         public Guid Id { get; }
 
         public IEnumerable<Ingredient> Ingredients => _ingredient;

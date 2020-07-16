@@ -21,10 +21,10 @@ namespace GoodFood.RestClient.Features.IngredientList
         }
 
 
-        public async Task Add(IngredientCommandDto ingredientCommandDto)
+        public async Task Add(IngredientCreateDto ingredientCreateDto)
         {
-            var payload = JsonConvert.SerializeObject(ingredientCommandDto);
-            
+            var payload = JsonConvert.SerializeObject(ingredientCreateDto);
+
             var content = new StringContent(
                 payload,
                 Encoding.UTF8,
@@ -36,20 +36,20 @@ namespace GoodFood.RestClient.Features.IngredientList
                 relativeUri,
                 content
             );
-            
+
             if (httpResponseMessage.StatusCode != HttpStatusCode.OK)
             {
                 var responseContent = await httpResponseMessage.Content.ReadAsStringAsync();
                 var exception = HttpResponseContentToException.Convert(responseContent);
-                
+
                 throw exception;
             }
-           
+
         }
 
         public async Task<IEnumerable<IngredientResultDto>> GetAll(Guid ingredientListId)
         {
-          
+
             var relativeUri = new Uri(IngredientListsDynamicRoutes.INGREDIENT_LIST_ROUTE(_ingredientListId),
                 UriKind.Relative);
             var httpResponseMessage = await _httpClient.GetAsync(
@@ -57,25 +57,26 @@ namespace GoodFood.RestClient.Features.IngredientList
             );
 
             httpResponseMessage.EnsureSuccessStatusCode();
-            
+
             var content = await httpResponseMessage.Content.ReadAsStringAsync();
 
-           
+
 
             var topics = JsonConvert.DeserializeObject<IEnumerable<IngredientResultDto>>(content);
 
             return topics;
         }
 
-        public async Task Remove(IngredientCommandDto lemonIngredientCommandDto)
+        public async Task Remove(Guid ingredientId)
         {
-              
-            var relativeUri = new Uri(IngredientListsDynamicRoutes.INGREDIENT_LIST_ROUTE(_ingredientListId),
+            var relativeUri = new Uri(IngredientListsDynamicRoutes.INGREDIENT_ROUTE(_ingredientListId,ingredientId),
                 UriKind.Relative);
-            
-            var request = new HttpRequestMessage(HttpMethod.Delete, relativeUri);
-            request.Content = new StringContent(JsonConvert.SerializeObject(lemonIngredientCommandDto), Encoding.UTF8, "application/json");
-            await _httpClient.SendAsync(request);
+            var httpResponseMessage = await _httpClient.DeleteAsync(
+                relativeUri
+            );
+
+            httpResponseMessage.EnsureSuccessStatusCode();
+
         }
     }
 }
