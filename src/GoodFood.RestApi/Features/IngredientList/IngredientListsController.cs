@@ -6,7 +6,7 @@ namespace GoodFood.RestApi.Features.IngredientList
 {
     [ApiController]
     [Route(StaticRoutes.INGREDIENT_LISTS_ROUTE)]
-    public class IngredientLists : ControllerBase
+    public class IngredientListsController : ControllerBase
     {
         [HttpPost]
         public Guid CreateIngredientList()
