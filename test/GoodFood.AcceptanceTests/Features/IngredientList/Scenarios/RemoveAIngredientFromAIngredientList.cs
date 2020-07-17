@@ -49,7 +49,7 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
 
             private async Task And_a_ingredient_list()
             {
-                _ingredientListId = await _client.IngredientLists.Create();
+                _ingredientListId = await _client.IngredientLists.CreateAsync();
             }
 
             private async Task And_an_ingredient()
@@ -62,25 +62,25 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
                 };
                 await _client.IngredientLists
                     .List(_ingredientListId)
-                    .Add(_lemonIngredientCreateDto);
+                    .AddAsync(_lemonIngredientCreateDto);
             }
 
             private async Task When_I_remove_an_ingredient()
             {
                 var ingredients = await _client.IngredientLists
-                    .List(_ingredientListId).GetAll(_ingredientListId);
+                    .List(_ingredientListId).GetAllAsync(_ingredientListId);
 
                 var ingredientToDeleteIdentifier = ingredients.Single().Identifier;
             
                 await _client.IngredientLists
                     .List(_ingredientListId)
-                    .Remove(ingredientToDeleteIdentifier);
+                    .RemoveAsync(ingredientToDeleteIdentifier);
             }
 
             private async Task Then_the_ingredient_list_will_be_empty()
             {
                 var ingridients = await _client.IngredientLists
-                    .List(_ingredientListId).GetAll(_ingredientListId);
+                    .List(_ingredientListId).GetAllAsync(_ingredientListId);
 
                 Assert.Empty(ingridients);
             }

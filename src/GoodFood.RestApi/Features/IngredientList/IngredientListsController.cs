@@ -18,9 +18,9 @@ namespace GoodFood.RestApi.Features.IngredientList
         }
         
         [HttpPost]
-        public async Task<Guid> CreateIngredientList()
+        public async Task<Guid> CreateIngredientListAsync()
         {
-            return await _ingredientListRepository.Create();
+            return await _ingredientListRepository.CreateAsync();
         }
     }
 }

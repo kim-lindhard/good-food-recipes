@@ -21,7 +21,7 @@ namespace GoodFood.RestClient.Features.IngredientList
         }
 
 
-        public async Task Add(IngredientCreateDto ingredientCreateDto)
+        public async Task AddAsync(IngredientCreateDto ingredientCreateDto)
         {
             var payload = JsonConvert.SerializeObject(ingredientCreateDto);
 
@@ -47,7 +47,7 @@ namespace GoodFood.RestClient.Features.IngredientList
 
         }
 
-        public async Task<IEnumerable<IngredientResultDto>> GetAll(Guid ingredientListId)
+        public async Task<IEnumerable<IngredientResultDto>> GetAllAsync(Guid ingredientListId)
         {
 
             var relativeUri = new Uri(IngredientListsDynamicRoutes.INGREDIENT_LIST_ROUTE(_ingredientListId),
@@ -67,7 +67,7 @@ namespace GoodFood.RestClient.Features.IngredientList
             return topics;
         }
 
-        public async Task Remove(Guid ingredientId)
+        public async Task RemoveAsync(Guid ingredientId)
         {
             var relativeUri = new Uri(IngredientListsDynamicRoutes.INGREDIENT_ROUTE(_ingredientListId,ingredientId),
                 UriKind.Relative);

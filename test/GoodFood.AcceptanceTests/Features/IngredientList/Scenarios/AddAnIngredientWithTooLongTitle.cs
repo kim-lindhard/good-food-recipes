@@ -44,7 +44,7 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
         
         private async Task And_a_ingredient_list()
         {
-        _ingredientListId = await _client.IngredientLists.Create();
+        _ingredientListId = await _client.IngredientLists.CreateAsync();
         }
 
         private async Task When_I_add_a_ingredient_with_a_title_of_91_length()
@@ -60,7 +60,7 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
             _titleLengthTooLongException = await Assert.ThrowsAsync<TitleLengthTooLongException>(() => 
                  _client.IngredientLists
                     .List(_ingredientListId)
-                    .Add(_ingredientWithTooLongTitleCreateDto)
+                    .AddAsync(_ingredientWithTooLongTitleCreateDto)
             );
         }
 

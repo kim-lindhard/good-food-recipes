@@ -22,14 +22,14 @@ namespace GoodFood.RestApi.Features.IngredientList
 
         [HttpPut]
         [Route(IngredientListsStaticRoutes.INGREDIENT_LIST_ROUTE)]
-        public async Task<IActionResult> AddIngredient(Guid ingredientListId,
+        public async Task<IActionResult> AddIngredientAsync(Guid ingredientListId,
             [FromBody] IngredientCreateDto ingredientCreateDto)
         {
             IActionResult actionResult;
             try
             {
                 var ingredient = IngredientCreateDto.ToIngredient(ingredientCreateDto);
-                var ingredientList = await _ingredientListRepository.Get(ingredientListId);
+                var ingredientList = await _ingredientListRepository.GetAsync(ingredientListId);
                 ingredientList.AddIngredientToList(ingredient);
 
                 actionResult = Ok();
@@ -43,15 +43,15 @@ namespace GoodFood.RestApi.Features.IngredientList
 
         [HttpDelete]
         [Route(IngredientListsStaticRoutes.INGREDIENT_ROUTE)]
-        public async Task<IActionResult> RemoveIngredient(Guid ingredientListId, Guid ingredientId)
+        public async Task<IActionResult> RemoveIngredientAsync(Guid ingredientListId, Guid ingredientId)
         {
             IActionResult actionResult;
             try
             {
-                var ingredientList = await _ingredientListRepository.Get(ingredientListId);
+                var ingredientList = await _ingredientListRepository.GetAsync(ingredientListId);
                 ingredientList.RemoveIngredientFromList(ingredientId);
 
-                await _ingredientListRepository.Store(ingredientList);
+                await _ingredientListRepository.StoreAsync(ingredientList);
                 actionResult = Ok();
             }
             catch (Exception exception) when (ExceptionToStatusCode.CanConvert(exception, out actionResult))
@@ -64,9 +64,9 @@ namespace GoodFood.RestApi.Features.IngredientList
 
         [HttpGet]
         [Route(IngredientListsStaticRoutes.INGREDIENT_LIST_ROUTE)]
-        public async Task<IEnumerable<IngredientResultDto>> GetAllIngredients(Guid ingredientListId)
+        public async Task<IEnumerable<IngredientResultDto>> GetAllIngredientsAsync(Guid ingredientListId)
         {
-            var ingredientList = await _ingredientListRepository.Get(ingredientListId);
+            var ingredientList = await _ingredientListRepository.GetAsync(ingredientListId);
             var ingredients = ingredientList.Ingredients;
             var ingredientResultDtos = ingredients.Select(i => IngredientResultDto.FromIngredient(i));
           

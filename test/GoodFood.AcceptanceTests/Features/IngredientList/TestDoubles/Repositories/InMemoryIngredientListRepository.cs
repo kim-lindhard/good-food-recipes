@@ -13,7 +13,7 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.TestDoubles.Repositor
             _ingredientLists = new Dictionary<Guid, Domain.Features.IngredientList.Models.IngredientList>();
         }
 
-        public Task<Guid> Create()
+        public Task<Guid> CreateAsync()
         {
             var id = Guid.NewGuid();
             
@@ -22,13 +22,13 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.TestDoubles.Repositor
             return Task.FromResult(id);
         }
 
-        public Task<Domain.Features.IngredientList.Models.IngredientList> Get(Guid ingredientListId)
+        public Task<Domain.Features.IngredientList.Models.IngredientList> GetAsync(Guid ingredientListId)
         {
             var ingredientList = _ingredientLists[ingredientListId];
             return Task.FromResult(ingredientList);
         }
 
-        public Task Store(Domain.Features.IngredientList.Models.IngredientList ingredientList)
+        public Task StoreAsync(Domain.Features.IngredientList.Models.IngredientList ingredientList)
         {
             _ingredientLists[ingredientList.Id] = ingredientList;
             

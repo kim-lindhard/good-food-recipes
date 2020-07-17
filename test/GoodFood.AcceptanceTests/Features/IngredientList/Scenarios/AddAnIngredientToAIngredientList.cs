@@ -42,7 +42,7 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
         
         private async Task And_a_ingredient_list()
         {
-        _ingredientListId = await _client.IngredientLists.Create();
+        _ingredientListId = await _client.IngredientLists.CreateAsync();
         }
 
         private async Task When_I_add_a_ingredient()
@@ -54,13 +54,13 @@ namespace GoodFood.AcceptanceTests.Features.IngredientList.Scenarios
             };
             await _client.IngredientLists
                 .List(_ingredientListId)
-                .Add(_lemonIngredientCreateDto);
+                .AddAsync(_lemonIngredientCreateDto);
         }
 
         private async Task Then_I_can_find_the_ingredient_in_the_ingredient_list()
         {
             var ingridients = await _client.IngredientLists
-                .List(_ingredientListId).GetAll(_ingredientListId);
+                .List(_ingredientListId).GetAllAsync(_ingredientListId);
             
             Assert.Single(ingridients, i => i.Title == _lemonIngredientCreateDto.Title);
             Assert.Single(ingridients, i => i.Description == _lemonIngredientCreateDto.Description);

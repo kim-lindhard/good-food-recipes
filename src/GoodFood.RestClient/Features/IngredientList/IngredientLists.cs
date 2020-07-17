@@ -14,7 +14,7 @@ namespace GoodFood.RestClient.Features.IngredientList
             _httpClient = httpClient;
         }
 
-        public async Task<Guid> Create()
+        public async Task<Guid> CreateAsync()
         {
             
 
